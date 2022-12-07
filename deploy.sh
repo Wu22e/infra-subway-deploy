@@ -30,7 +30,6 @@ function valid_parameter() {
   esac
 }
 
-
 ## git branch 변경 사항 체크
 function check_branch_df() {
   echo -e ""
