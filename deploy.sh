@@ -22,7 +22,7 @@ function check_current_branch() {
   echo -e ""
   echo -e ">> Check Current Branch 🏃♂️ "
   current_branch=$(git branch)
-  if [ "$current_branch" -ne "$BRANCH" ]; then
+  if [[ $current_branch == $BRANCH ]]; then
     echo -e "please check current branch"
     exit 1
   fi
@@ -33,8 +33,8 @@ function check_branch_df() {
   echo -e ""
   echo -e ">> Check Branch Difference 🏃♂️ "
   git fetch
-  master=$(git rev-parse "$BRANCH")
-  remote=$(git rev-parse origin/"$BRANCH")
+  master=$(git rev-parse $BRANCH)
+  remote=$(git rev-parse origin/$BRANCH)
 
   if [[ $master == $remote ]]; then
     echo -e "[$(date)] Nothing to do!!! 😫"
