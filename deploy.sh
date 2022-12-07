@@ -78,8 +78,8 @@ function run_application() {
 }
 
 check_current_branch;
-#check_branch_df;
-#pull_branch;
-#build_application;
-#check_exists_process_pid;
-#run_application;
+check_branch_df;
+pull_branch;
+build_application;
+check_exists_process_pid;
+run_application;
