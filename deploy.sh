@@ -3,8 +3,8 @@
 ## 변수 설정
 REPOSITORY=/home/ubuntu/nextstep/infra-subway-deploy
 BUILD_PATH=./build/libs
-BRANCH=${1}
-PROFILE=${2}
+BRANCH=$1
+PROFILE=$2
 
 txtrst='\033[1;37m' # White
 txtred='\033[1;31m' # Red
@@ -18,13 +18,10 @@ echo -e "${txtylw}=======================================${txtrst}"
 echo -e "${txtgrn}  << Script 🧐 >>${txtrst}"
 echo -e "${txtylw}=======================================${txtrst}"
 
-## application root 폴더로 이동
-function move_application_root() {
-  cd ${REPOSITORY}
-}
-
-function check_branch() {
-  current_branch=${git branch}
+function check_current_branch() {
+  echo -e ""
+  echo -e ">> Check Current Branch 🏃♂️ "
+  current_branch=$(git branch)
   if [ "$current_branch" -ne "$BRANCH" ]; then
     echo -e "please check current branch"
     exit 1
@@ -33,6 +30,8 @@ function check_branch() {
 
 ## git branch 변경 사항 체크
 function check_branch_df() {
+  echo -e ""
+  echo -e ">> Check Branch Difference 🏃♂️ "
   git fetch
   master=$(git rev-parse "$BRANCH")
   remote=$(git rev-parse origin/"$BRANCH")
@@ -77,8 +76,7 @@ function run_application() {
   nohup java -Dspring.profiles.active="${PROFILE}" -Djava.security.egd=file:/dev/./urandom -jar ${BUILD_PATH}/"${JAR_NAME}" 1> application.log 2>&1 &
 }
 
-move_application_root;
-check_branch;
+check_current_branch;
 check_branch_df;
 pull_branch;
 build_application;
