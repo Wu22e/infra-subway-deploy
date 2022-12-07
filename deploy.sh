@@ -18,15 +18,16 @@ echo -e "${txtylw}=======================================${txtrst}"
 echo -e "${txtgrn}  << Script 🧐 >>${txtrst}"
 echo -e "${txtylw}=======================================${txtrst}"
 
-function check_current_branch() {
-  echo -e ""
-  echo -e ">> Check Current Branch 🏃♂️ "
-  current_branch=$(git branch --show-current)
-  if [[ $current_branch == $BRANCH ]]; then
-    echo -e "please check current branch and checkout deploy target branch. Current branch -> ${current_branch}"
+function valid_parameter() {
+  if [ "$BRANCH" == ""  ]; then
+    echo "please write deploy target branch"
     exit 1
   fi
-  echo -e "current branch is ${current_branch}"
+  case "$PROFILE" in
+    "prod") ;; "test") ;; "local") ;;
+    *) echo "please write deploy target environment"
+       exit 1;;
+  esac
 }
 
 ## git branch 변경 사항 체크
@@ -77,9 +78,20 @@ function run_application() {
   nohup java -Dspring.profiles.active="${PROFILE}" -Djava.security.egd=file:/dev/./urandom -jar ${BUILD_PATH}/"${JAR_NAME}" 1> application.log 2>&1 &
 }
 
-check_current_branch;
+## deploy.sh 파라미터 유효성 검증
+valid_parameter;
+
+## branch 변경 유무 확인
 check_branch_df;
+
+## remote branch 로컬 반영
 pull_branch;
+
+## 어플리케이션 빌드
 build_application;
+
+## 실행 중인 어플리케이션 프로세스 종료
 check_exists_process_pid;
+
+## 어플리케이션 실행
 run_application;
