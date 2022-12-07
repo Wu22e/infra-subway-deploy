@@ -23,7 +23,7 @@ function check_current_branch() {
   echo -e ">> Check Current Branch 🏃♂️ "
   current_branch=$(git branch --show-current)
   if [[ $current_branch == $BRANCH ]]; then
-    echo -e "please check current branch and checkout deploy target branch"
+    echo -e "please check current branch and checkout deploy target branch. Current branch -> ${current_branch}"
     exit 1
   fi
   echo -e "current branch is ${current_branch}"
