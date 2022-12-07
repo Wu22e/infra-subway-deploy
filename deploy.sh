@@ -21,11 +21,12 @@ echo -e "${txtylw}=======================================${txtrst}"
 function check_current_branch() {
   echo -e ""
   echo -e ">> Check Current Branch 🏃♂️ "
-  current_branch=$(git branch)
+  current_branch=$(git branch --show-current)
   if [[ $current_branch == $BRANCH ]]; then
-    echo -e "please check current branch"
+    echo -e "please check current branch and checkout deploy target branch"
     exit 1
   fi
+  echo -e "current branch is ${current_branch}"
 }
 
 ## git branch 변경 사항 체크
@@ -77,8 +78,8 @@ function run_application() {
 }
 
 check_current_branch;
-check_branch_df;
-pull_branch;
-build_application;
-check_exists_process_pid;
-run_application;
+#check_branch_df;
+#pull_branch;
+#build_application;
+#check_exists_process_pid;
+#run_application;
